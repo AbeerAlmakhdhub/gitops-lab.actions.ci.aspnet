@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      configuration: Release 
     steps:
       # Checkout all sources from git
       - name: Checkout Sources
@@ -19,3 +21,11 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.0.x
+
+      # Build the project
+      - name: Build
+        run: dotnet build --no-restore --configuration ${{ env.configuration }}
+
+      # Run some tests :) 
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --configuration ${{ env.configuration }}
